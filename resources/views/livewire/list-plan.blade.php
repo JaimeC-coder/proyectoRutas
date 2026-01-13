@@ -35,7 +35,7 @@
                         ">
 
             @forelse ($allPlanes as $plan)
-                {{$plan}}
+
                 <tr
                     class="bg-neutral-primary border-b border-default hover:bg-neutral-secondary transition-colors
                         @switch($plan->status)
