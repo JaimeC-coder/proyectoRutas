@@ -13,5 +13,7 @@ class UserPlans extends Model
         'plan_id',
         'status',
         'role',
+        'google_event_id',
+        'synced_at'
     ];
 }

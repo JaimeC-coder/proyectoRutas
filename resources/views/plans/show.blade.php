@@ -54,6 +54,8 @@
                             </div>
                         @endif
 
+                        {{$plan->users }}
+
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                             <!-- Main Content - Plan Details -->
@@ -215,14 +217,14 @@
                                         <div class="flex items-center">
                                             <div
                                                 class="flex-shrink-0 h-12 w-12 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-lg">
-                                                {{ substr($plan->user->name, 0, 1) }}
+                                                {{ substr($plan->creator->name, 0, 1) }}
                                             </div>
                                             <div class="ml-4">
                                                 <p class="text-sm font-medium text-gray-900 dark:text-white">
-                                                    {{ $plan->user->name }}
+                                                    {{ $plan->creator->name }}
                                                 </p>
                                                 <p class="text-xs text-gray-500 dark:text-gray-400">
-                                                    {{ $plan->user->email }}
+                                                    {{ $plan->creator->email }}
                                                 </p>
                                             </div>
                                         </div>
@@ -245,12 +247,12 @@
                                                 <div class="flex items-center min-w-0 flex-1">
                                                     <div
                                                         class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-medium">
-                                                        {{ substr($plan->user->name, 0, 1) }}
+                                                        {{ substr($plan->creator->name, 0, 1) }}
                                                     </div>
                                                     <div class="ml-3 min-w-0 flex-1">
                                                         <p
                                                             class="text-sm font-medium text-gray-900 dark:text-white truncate">
-                                                            {{ $plan->user->name }}
+                                                            {{ $plan->creator->name }}
                                                         </p>
                                                         <p class="text-xs text-gray-500 dark:text-gray-400">
                                                             Organizador

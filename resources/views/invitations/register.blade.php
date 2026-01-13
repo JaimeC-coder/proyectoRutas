@@ -105,6 +105,21 @@
                                     @enderror
                                 </div>
 
+                                <!-- Phone -->
+                                <div>
+                                    <label for="phone"
+                                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Número de teléfono <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" name="phone" id="phone" value="{{ old('phone') }}"
+                                        required
+                                        class="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent @error('phone') border-red-500 @enderror"
+                                        placeholder="Ejemplo: +51981234567">
+                                    @error('phone')
+                                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
                                 <!-- Password -->
                                 <div>
                                     <label for="password"

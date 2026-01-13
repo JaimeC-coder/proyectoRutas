@@ -21,6 +21,11 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+
+            // Google OAuth tokens
+            $table->text('google_access_token')->nullable();
+            $table->text('google_refresh_token')->nullable();
+            $table->timestamp('google_token_expires_at')->nullable();
             $table->timestamps();
         });
 

@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->date('date');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date')->nullable();
             $table->time('time_out');
             $table->string('meeting_place');
             $table->text('description');

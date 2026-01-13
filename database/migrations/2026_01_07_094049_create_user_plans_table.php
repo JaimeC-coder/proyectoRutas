@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('invitation_token')->nullable();
             $table->timestamp('invitation_sent_at')->nullable();
             $table->timestamp('invitation_accepted_at')->nullable();
+            $table->string('google_event_id')->nullable();
+            $table->timestamp('synced_at')->nullable();
             $table->string('role');
             $table->timestamps();
 

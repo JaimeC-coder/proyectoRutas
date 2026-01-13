@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GoogleCalendarController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlanInvitationsController;
 
@@ -8,7 +9,11 @@ Route::get('/', function () {
 });
 
 
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/google/connect', [GoogleCalendarController::class, 'redirectToGoogle'])->name('google.connect');
+    Route::get('/google/callback', [GoogleCalendarController::class, 'handleGoogleCallback'])->name('google.callback');
+    Route::post('/google/disconnect', [GoogleCalendarController::class, 'disconnect'])->name('google.disconnect');
+});
 
 Route::get('/invitation/{token}', [PlanInvitationsController::class, 'accept'])
     ->name('invitation.accept');

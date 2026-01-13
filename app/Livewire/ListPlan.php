@@ -7,9 +7,11 @@ use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Services\GoogleCalendarService;
 
 class ListPlan extends Component
 {
+    protected $listeners = ['refreshComponent' => '$refresh'];
     public function deletePlan($planId)
     {
         try {
@@ -20,6 +22,12 @@ class ListPlan extends Component
                 session()->flash('error', 'No tienes permiso para eliminar este plan.');
                 return;
             }
+            foreach ($plan->users as $user) {
+                if ($user->hasGoogleCalendar() && $plan->isSyncedForUser($user->id)) {
+                    $this->calendarService->deleteEventForUser($user, $plan);
+                }
+            }
+
 
             $plan->delete();
             session()->flash('message', 'Plan eliminado exitosamente.');
@@ -29,56 +37,42 @@ class ListPlan extends Component
         }
     }
 
-    private function transformPlan($user)
+    public function acceptPlan($id)
     {
-        // Planes creados por el usuario
-        $createdPlans = $user->createdPlans;
-
-        // Planes compartidos con el usuario
-        $sharedPlans = $user->plans;
-
-        // Unir ambas colecciones y eliminar duplicados por ID
-        $allPlans = $createdPlans->merge($sharedPlans)->unique('id');
-
-        // Ordenar por fecha descendente
-        return $allPlans->sortByDesc('date')->values();
+        $userId = Auth::id();
+        $this->updatePlanStatus($userId, $id, 'accepted');
+        GoogleCalendarService::addEventForUser(Auth::user(), plans::find($id));
     }
+    public function refusePlan($id)
+    {
+        $userId = Auth::id();
+        $this->updatePlanStatus($userId, $id, 'refused');
+        GoogleCalendarService::deleteEventForUser(Auth::user(), plans::find($id));
+    }
+
+    private function updatePlanStatus($userId, $planId, $status)
+    {
+        $plan = plans::find($planId);
+
+        if ($plan && $plan->users->contains($userId)) {
+            $plan->users()->updateExistingPivot($userId, ['status' => $status]);
+        }
+    }
+
+
+
 
     public function render()
     {
         $user = Auth::user();
-        // Obtener todos los planes del usuario (creados + compartidos) que el usuario a aceptó
-        $plansAccepted = Plans::where('user_id', $user->id)
-            ->orWhereHas('users', function ($query) use ($user) {
-                $query->where('user_id', $user->id)
-                    ->where('status', 'accepted');
-            })
-            ->with(['creator', 'users'])
-            ->orderBy('date', 'desc')
-            ->get();
 
-        $plansPendientes = Plans::whereHas('users', function ($query) use ($user) {
-            $query->where('user_id', $user->id)
-                ->where('status', 'pending');
-        })
-            ->with(['creator', 'users'])
-            ->orderBy('date', 'desc')
-            ->get();
-
-        $planesRefused = Plans::whereHas('users', function ($query) use ($user) {
-            $query->where('user_id', $user->id)
-                ->where('status', 'refused');
-        })
-            ->with(['creator', 'users'])
-            ->orderBy('date', 'desc')
+        $allPlanes = $user->plans()
+            ->orderBy('start_date', 'desc')
             ->get();
 
 
 
 
-
-
-
-        return view('livewire.list-plan', compact('plansAccepted', 'plansPendientes', 'planesRefused'));
+        return view('livewire.list-plan', compact('allPlanes'));
     }
 }

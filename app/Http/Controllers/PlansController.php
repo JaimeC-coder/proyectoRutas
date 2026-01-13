@@ -63,9 +63,10 @@ class PlansController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(plans $plans)
+    public function show(plans $plan)
     {
-        //
+
+        return view('plans.show',compact('plan'));
     }
 
     /**

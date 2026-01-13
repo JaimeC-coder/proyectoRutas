@@ -8,6 +8,7 @@ use App\Models\PlanInvitation;
 use App\Models\PlanInvitations;
 use App\Models\plans;
 use App\Models\User;
+use App\Services\GoogleCalendarService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +18,8 @@ use Livewire\Component;
 class CreatePlan extends Component
 {
     public $name;
-    public $date;
+    public $start_date;
+    public $end_date;
     public $time_out;
     public $meeting_place;
     public $description;
@@ -28,7 +30,8 @@ class CreatePlan extends Component
 
     protected $rules = [
         'name' => 'required|string|max:255',
-        'date' => 'required|date|after_or_equal:today',
+        'start_date' => 'required|date|after_or_equal:today',
+        'end_date' => 'nullable|date|after_or_equal:start_date',
         'time_out' => 'required',
         'meeting_place' => 'required|string|max:255',
         'description' => 'nullable|string|max:1000',
@@ -39,8 +42,10 @@ class CreatePlan extends Component
 
     protected $messages = [
         'name.required' => 'El nombre del plan es obligatorio.',
-        'date.required' => 'La fecha del plan es obligatoria.',
-        'date.after_or_equal' => 'La fecha debe ser hoy o posterior.',
+        'start_date.required' => 'La fecha de inicio del plan es obligatoria.',
+        'start_date.after_or_equal' => 'La fecha de inicio debe ser hoy o posterior.',
+        'end_date.required' => 'La fecha de fin del plan es obligatoria.',
+        'end_date.after_or_equal' => 'La fecha de fin debe ser igual o posterior a la fecha de inicio.',
         'time_out.required' => 'La hora de encuentro es obligatoria.',
         'meeting_place.required' => 'El lugar de encuentro es obligatorio.',
         'difficulty.in' => 'La dificultad seleccionada no es válida.',
@@ -99,7 +104,8 @@ class CreatePlan extends Component
             // Crear el plan
             $plan = plans::create([
                 'name' => $this->name,
-                'date' => $this->date,
+                'start_date' => date('Y-m-d H:i:s', strtotime($this->start_date)),
+                'end_date' => date('Y-m-d H:i:s', strtotime($this->end_date)),
                 'time_out' => $this->time_out,
                 'meeting_place' => $this->meeting_place,
                 'description' => $this->description,
@@ -107,6 +113,14 @@ class CreatePlan extends Component
                 'observations' => $this->observations,
                 'user_id' => Auth::id(),
             ]);
+
+            //agregar al creador del plan como admin
+            $plan->users()->attach(Auth::id(), [
+                'role' => 'admin',
+                'status' => 'accepted'
+            ]);
+
+            GoogleCalendarService::addEvent(Auth::user(), $plan);
 
             // Asociar usuarios registrados
             foreach ($this->selectedUsers as $userId => $userData) {

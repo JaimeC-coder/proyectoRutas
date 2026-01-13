@@ -32,15 +32,15 @@
 
 
 
-            <div class="grid gap-6 mb-6 md:grid-cols-2">
+            <div class="grid gap-6 mb-6 md:grid-cols-3">
                 <div class="mb-5">
-                    <label for="plan-date" class="block mb-3 text-sm font-medium text-heading dark:text-gray-300">
+                    <label for="plan-start-date" class="block mb-3 text-sm font-medium text-heading dark:text-gray-300">
                         Fecha del plan <span class="text-red-500">*</span>
                     </label>
-                    <input type="date" id="plan-date"
+                    <input type="date" id="plan-start-date"
                         class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs"
-                        wire:model="date">
-                    @error('date')
+                        wire:model="start_date">
+                    @error('start_date')
                         <span class="text-red-500 text-xs">{{ $message }}</span>
                     @enderror
                 </div>
@@ -52,6 +52,17 @@
                         class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs"
                         wire:model="time_out">
                     @error('time_out')
+                        <span class="text-red-500 text-xs">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="mb-5">
+                    <label for="plan-end-date" class="block mb-3 text-sm font-medium text-heading dark:text-gray-300">
+                       Fecha de fin (opcional)
+                    </label>
+                    <input type="date" id="plan-end-date"
+                        class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs"
+                        wire:model="end_date">
+                    @error('end_date')
                         <span class="text-red-500 text-xs">{{ $message }}</span>
                     @enderror
                 </div>
@@ -144,7 +155,7 @@
                                 </div>
                             </div>
                         @empty
-                            <p class="text-sm text-body">No hay usuarios disponibles para invitar.</p>
+                            <p class="text-2xl text-body dark:text-white">No hay usuarios disponibles para invitar. :C</p>
                         @endforelse
                     </fieldset>
                 </div>

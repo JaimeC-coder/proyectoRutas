@@ -252,7 +252,7 @@
             <h2 class="modal-title" id="modalTitle"></h2>
 
             <div class="modal-detail">
-                <span class="modal-label">📅 Fecha</span>
+                <span class="modal-label">📅 Fechas</span>
                 <div class="modal-value" id="modalDate"></div>
             </div>
 
@@ -286,10 +286,9 @@
 
 
     @push('scripts')
-
         <script>
             // Datos de ejemplo - En Laravel esto vendría del backend
-            const plans = @php echo $plansAcceptedclaencalendar; @endphp;
+            const plans = @json($plansAcceptedclaencalendar);
 
             // Convertir planes a eventos de FullCalendar
             const events = plans.map(plan => {
@@ -301,7 +300,8 @@
                 return {
                     id: plan.id,
                     title: plan.name,
-                    start: `${plan.date}T${plan.time_out}`,
+                    start: `${plan.start_date}T${plan.time_out}`,
+                    end: plan.end_date ? `${plan.end_date}T${plan.time_out}` : null,
                     className: className,
                     extendedProps: {
                         ...plan
@@ -345,12 +345,21 @@
                 const plan = event.extendedProps;
 
                 document.getElementById('modalTitle').textContent = plan.name;
-                document.getElementById('modalDate').textContent = new Date(plan.date).toLocaleDateString('es-ES', {
+                document.getElementById('modalDate').textContent = new Date(plan.start_date).toLocaleDateString('es-ES', {
                     weekday: 'long',
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
                 });
+                if (plan.end_date) {
+                    document.getElementById('modalDate').textContent += ' - ' + new Date(plan.end_date).toLocaleDateString(
+                        'es-ES', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                }
                 document.getElementById('modalTime').textContent = plan.time_out;
                 document.getElementById('modalPlace').textContent = plan.meeting_place;
                 document.getElementById('modalDescription').textContent = plan.description || 'Sin descripción';

@@ -30,6 +30,9 @@ class User extends Authenticatable
         'phone',
         'email',
         'password',
+        'google_access_token',
+        'google_refresh_token',
+        'google_token_expires_at',
     ];
 
     /**
@@ -69,7 +72,7 @@ class User extends Authenticatable
     // Planes que creó el usuario
     public function createdPlans()
     {
-        return $this->hasMany(Plans::class);
+        return $this->hasMany(Plans::class,'created_by');
     }
 
     // Planes en los que participa
@@ -78,5 +81,20 @@ class User extends Authenticatable
         return $this->belongsToMany(Plans::class, 'user_plans', 'user_id', 'plan_id')
             ->withPivot('status', 'role')
             ->withTimestamps();
+    }
+
+    //partiendo del usuario obtener los planes que esten aceptados , rechazados o pendientes
+
+    public function allPlans()
+    {
+        return $this->plans()->wherePivot('status', 'accepted')
+            ->orWherePivot('status', 'pending')
+            ->orWherePivot('status', 'refused');
+    }
+
+    // Verificar si tiene Google Calendar conectado
+    public function hasGoogleCalendar()
+    {
+        return !is_null($this->google_access_token);
     }
 }

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\WhatsAppHelper;
 use App\Models\PlanInvitations;
 use App\Models\User;
+use Illuminate\Container\Attributes\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log as FacadesLog;
 
 class PlanInvitationsController extends Controller
 {
@@ -52,6 +55,7 @@ class PlanInvitationsController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'phone'=>'required|string|max:20|unique:users,phone',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -59,6 +63,7 @@ class PlanInvitationsController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $invitation->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
@@ -69,10 +74,19 @@ class PlanInvitationsController extends Controller
 
         $invitation->update(['accepted_at' => now()]);
 
+        $creator = $invitation->plan->creator;
+        FacadesLog::info("Número del creador del plan: " . $creator->phone);
+
+        WhatsAppHelper::confirmationInvitation(
+            $creator->name,
+            $user->name,
+            $invitation->plan->name,
+            $creator->phone
+        );
         // Login automático
         Auth::login($user);
 
-        return redirect()->route('plans.show', $invitation->plan_id)
+        return redirect()->route('admin.plans.show', $invitation->plan_id)
             ->with('success', '¡Cuenta creada y te has unido al plan!');
     }
 }
