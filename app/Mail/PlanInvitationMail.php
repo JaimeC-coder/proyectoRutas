@@ -3,7 +3,7 @@
 namespace App\Mail;
 
 use App\Models\PlanInvitations;
-use App\Models\plans;
+use App\Models\Plans;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -21,7 +21,7 @@ class PlanInvitationMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(plans $plan, PlanInvitations $invitation, $inviterName)
+    public function __construct(Plans $plan, PlanInvitations $invitation, $inviterName)
     {
         $this->plan = $plan;
         $this->invitation = $invitation;

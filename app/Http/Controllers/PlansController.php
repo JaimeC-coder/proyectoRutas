@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\plans;
+use App\Models\Plans;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -13,7 +13,7 @@ class PlansController extends Controller
      */
     public function index()
     {
-        $planes = plans::all();
+        $planes = Plans::all();
         return view('admin.plans.index', compact('planes'));
     }
 
@@ -44,7 +44,7 @@ class PlansController extends Controller
 
         dd($request->all());
 
-        $plan = plans::create([
+        $plan = Plans::create([
             'name' => $request->name,
             'date' => $request->date,
             'time_out' => $request->time_out,
@@ -63,7 +63,7 @@ class PlansController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(plans $plan)
+    public function show(Plans $plan)
     {
 
         return view('plans.show',compact('plan'));
@@ -72,7 +72,7 @@ class PlansController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(plans $plans)
+    public function edit(Plans $plans)
     {
         //
     }
@@ -80,7 +80,7 @@ class PlansController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, plans $plans)
+    public function update(Request $request, Plans $plans)
     {
         //
     }
@@ -88,7 +88,7 @@ class PlansController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(plans $plans)
+    public function destroy(Plans $plans)
     {
         //
     }

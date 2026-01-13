@@ -5,7 +5,7 @@ namespace App\Services;
 use Google\Client;
 use Google\Service\Calendar;
 use Google\Service\Calendar\Event;
-use App\Models\Plan;
+
 use App\Models\Plans;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;

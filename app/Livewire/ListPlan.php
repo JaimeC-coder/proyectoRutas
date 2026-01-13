@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\plans;
+use App\Models\Plans;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +15,7 @@ class ListPlan extends Component
     public function deletePlan($planId)
     {
         try {
-            $plan = plans::findOrFail($planId);
+            $plan = Plans::findOrFail($planId);
 
             // Verificar que el usuario sea el creador o tenga permisos
             if ($plan->user_id !== Auth::id() && !$plan->users->contains(Auth::id())) {
@@ -52,7 +52,7 @@ class ListPlan extends Component
 
     private function updatePlanStatus($userId, $planId, $status)
     {
-        $plan = plans::find($planId);
+        $plan = Plans::find($planId);
 
         if ($plan && $plan->users->contains($userId)) {
             $plan->users()->updateExistingPivot($userId, ['status' => $status]);
@@ -63,12 +63,12 @@ class ListPlan extends Component
     {
         Log::info('Syncing plan ID: ' . $planId);
 
-        GoogleCalendarService::addEventForUser(Auth::user(), plans::find($planId));
+        GoogleCalendarService::addEventForUser(Auth::user(), Plans::find($planId));
     }
 
     public function unsyncPlan($planId)
     {
-        GoogleCalendarService::deleteEventForUser(Auth::user(), plans::find($planId));
+        GoogleCalendarService::deleteEventForUser(Auth::user(), Plans::find($planId));
     }
 
 

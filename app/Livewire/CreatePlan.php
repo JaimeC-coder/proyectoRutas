@@ -3,10 +3,9 @@
 namespace App\Livewire;
 
 use App\Mail\PlanInvitationMail;
-use App\Models\Plan;
 use App\Models\PlanInvitation;
 use App\Models\PlanInvitations;
-use App\Models\plans;
+use App\Models\Plans;
 use App\Models\User;
 use App\Services\GoogleCalendarService;
 use Illuminate\Support\Facades\Auth;
@@ -102,7 +101,7 @@ class CreatePlan extends Component
             DB::beginTransaction();
 
             // Crear el plan
-            $plan = plans::create([
+            $plan = Plans::create([
                 'name' => $this->name,
                 'start_date' => date('Y-m-d H:i:s', strtotime($this->start_date)),
                 'end_date' => date('Y-m-d H:i:s', strtotime($this->end_date)),
