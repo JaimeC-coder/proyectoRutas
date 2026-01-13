@@ -23,6 +23,9 @@
                     Estado
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    sincronizado con calendario??
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Acciones
                 </th>
             </tr>
@@ -32,6 +35,7 @@
                         ">
 
             @forelse ($allPlanes as $plan)
+                {{$plan}}
                 <tr
                     class="bg-neutral-primary border-b border-default hover:bg-neutral-secondary transition-colors
                         @switch($plan->status)
@@ -98,6 +102,9 @@
                             <td class="px-6 py-4 text-body">
                                 {{ ucfirst('Pendiente') }}
                             </td>
+                            <td class="px-6 py-4 text-body">
+                                No
+                            </td>
                             <td class="px-6 py-4">
                                 <div class="flex gap-2">
                                     <button wire:click="acceptPlan({{ $plan->id }})"
@@ -116,6 +123,9 @@
                             <td class="px-6 py-4 text-body">
                                 {{ ucfirst('Acceptado') }}
                             </td>
+                            <td class="px-6 py-4 text-body">
+                                {{ $plan->synced_at ? 'Sí' : 'No' }}
+                            </td>
 
 
                             @if ($plan->user_id === Auth::id())
@@ -125,6 +135,13 @@
                                             class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-base hover:bg-red-600 transition-colors">
                                             Eliminar
                                         </button>
+                                        @if (!$plan->synced_at)
+
+                                        <button wire:click="syncPlan({{ $plan->id }})"
+                                            class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-base hover:bg-blue-600 transition-colors">
+                                            Sincronizar
+                                        </button>
+                                        @endif
                                     </div>
                                 </td>
                             @else
@@ -142,6 +159,9 @@
                         @case('refused')
                             <td class="px-6 py-4 text-body">
                                 {{ ucfirst('Rechazado') }}
+                            </td>
+                            <td class="px-6 py-4 text-body">
+                                No
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex gap-2">
@@ -175,7 +195,7 @@
                 </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-8 text-center text-body">
+                        <td colspan="7" class="px-6 py-8 text-center text-body">
                             <div class="flex flex-col items-center gap-2">
                                 <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">

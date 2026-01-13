@@ -195,32 +195,8 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <div class="flex gap-3 pt-4">
-                <x-button href="{{ route('plans.index') }}" type="button">
+                <x-button href="{{ route('dashboard') }}" type="button">
                     Cancelar
                 </x-button>
                 <x-button type="submit" variant="secondary">

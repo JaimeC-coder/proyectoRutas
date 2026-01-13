@@ -63,7 +63,8 @@ class GoogleCalendarService
                     'timeZone' => 'America/Lima',
                 ],
                 'end' => [
-                    'dateTime' => $plan->end_date->toRfc3339String(),
+                    'dateTime' => ($plan->end_date && $plan->end_date->isAfter($plan->start_date)  ? $plan->end_date : $plan->start_date->copy()->addHours(1)
+                    )->toRfc3339String(),
                     'timeZone' => 'America/Lima',
                 ],
             ]);
@@ -231,5 +232,21 @@ class GoogleCalendarService
         }
 
         return $results;
+    }
+
+    //Sincronizar un plan existente
+    public function syncPLanForUser(User $user, Plans $plan)
+    {
+        // Solo sincronizar si el usuario tiene Google Calendar conectado
+        if (!$user->hasGoogleCalendar()) {
+            return false;
+        }
+
+        // Solo sincronizar si aún no está sincronizado
+        if ($plan->isSyncedForUser($user->id)) {
+            return false;
+        }
+
+        return $this->addEventForUser($user, $plan);
     }
 }

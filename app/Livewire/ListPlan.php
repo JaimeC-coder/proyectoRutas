@@ -59,6 +59,18 @@ class ListPlan extends Component
         }
     }
 
+    public function syncPlan($planId)
+    {
+        Log::info('Syncing plan ID: ' . $planId);
+
+        GoogleCalendarService::addEventForUser(Auth::user(), plans::find($planId));
+    }
+
+    public function unsyncPlan($planId)
+    {
+        GoogleCalendarService::deleteEventForUser(Auth::user(), plans::find($planId));
+    }
+
 
 
 
@@ -70,7 +82,7 @@ class ListPlan extends Component
             ->orderBy('start_date', 'desc')
             ->get();
 
-
+        //dd($allPlanes);
 
 
         return view('livewire.list-plan', compact('allPlanes'));

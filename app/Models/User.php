@@ -79,7 +79,7 @@ class User extends Authenticatable
     public function plans()
     {
         return $this->belongsToMany(Plans::class, 'user_plans', 'user_id', 'plan_id')
-            ->withPivot('status', 'role')
+            ->withPivot('status', 'role', 'google_event_id', 'synced_at')
             ->withTimestamps();
     }
 

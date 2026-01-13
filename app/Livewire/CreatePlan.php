@@ -120,7 +120,7 @@ class CreatePlan extends Component
                 'status' => 'accepted'
             ]);
 
-            GoogleCalendarService::addEvent(Auth::user(), $plan);
+            GoogleCalendarService::addEventForUser(Auth::user(), $plan);
 
             // Asociar usuarios registrados
             foreach ($this->selectedUsers as $userId => $userData) {

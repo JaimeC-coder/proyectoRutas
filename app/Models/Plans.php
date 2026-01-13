@@ -39,6 +39,10 @@ class Plans extends Model
     {
         return $this->pivot->role ?? null;
     }
+    public function getSyncedAtAttribute()
+    {
+        return $this->pivot->synced_at ?? null;
+    }
 
     // Verificar si un usuario específico tiene este plan sincronizado
     public function isSyncedForUser($userId)
