@@ -140,6 +140,11 @@
                                                 class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-base hover:bg-blue-600 transition-colors">
                                                 Sincronizar
                                             </button>
+                                        @else
+                                            <button wire:click="unsyncPlan({{ $plan->id }})"
+                                                class="inline-flex items-center px-4 py-2 bg-yellow-500 text-white rounded-base hover:bg-yellow-600 transition-colors">
+                                                Desincronizar
+                                            </button>
                                         @endif
                                     </div>
                                 </td>
