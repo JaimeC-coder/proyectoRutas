@@ -39,6 +39,9 @@
                     </a>
                 @endif
 
+                <x-button class="ms-4" onclick="window.location='{{ route('register') }}'">
+                    {{ __('Register') }}
+                </x-button>
                 <x-button class="ms-4">
                     {{ __('Log in') }}
                 </x-button>
