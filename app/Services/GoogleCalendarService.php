@@ -164,6 +164,7 @@ class GoogleCalendarService
             //si el error es un 401 quiero que igual se acutlize el pivot
             Log::info("Codigo de error: " . $e->getCode());
             if ($e->getCode() == 401) {
+                Log::info("Eliminando referencia del evento para el usuario {$user->id} debido a error 401");
                 $plan->users()->updateExistingPivot($user->id, [
                     'google_event_id' => null,
                     'synced_at' => null,
