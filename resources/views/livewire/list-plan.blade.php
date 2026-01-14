@@ -35,7 +35,8 @@
                         ">
 
             @forelse ($allPlanes as $plan)
-                {{$plan}}
+                {{ Auth::id() }}
+                {{ $plan->user_id }}
                 <tr
                     class="bg-neutral-primary border-b border-default hover:bg-neutral-secondary transition-colors
                         @switch($plan->status)
@@ -136,11 +137,10 @@
                                             Eliminar
                                         </button>
                                         @if (!$plan->synced_at)
-
-                                        <button wire:click="syncPlan({{ $plan->id }})"
-                                            class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-base hover:bg-blue-600 transition-colors">
-                                            Sincronizar
-                                        </button>
+                                            <button wire:click="syncPlan({{ $plan->id }})"
+                                                class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-base hover:bg-blue-600 transition-colors">
+                                                Sincronizar
+                                            </button>
                                         @endif
                                     </div>
                                 </td>
@@ -151,7 +151,7 @@
                                             class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-base hover:bg-red-600 transition-colors">
                                             Rechazar
                                         </button>
-                                         @if (!$plan->synced_at)
+                                        @if (!$plan->synced_at)
                                             hola
                                             <button wire:click="syncPlan({{ $plan->id }})"
                                                 class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-base hover:bg-blue-600 transition-colors">
