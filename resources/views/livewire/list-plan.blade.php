@@ -129,7 +129,7 @@
                             </td>
 
 
-                            @if ($plan->user_id === Auth::id())
+                            @if ($plan->user_id == Auth::id())
                                 <td class="px-6 py-4">
                                     <div class="flex gap-2">
                                         <button wire:click="deletePlan({{ $plan->id }})"
