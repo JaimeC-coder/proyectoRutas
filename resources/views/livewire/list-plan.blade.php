@@ -152,11 +152,13 @@
                                             Rechazar
                                         </button>
                                          @if (!$plan->synced_at)
-
-                                        <button wire:click="syncPlan({{ $plan->id }})"
-                                            class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-base hover:bg-blue-600 transition-colors">
-                                            Sincronizar
-                                        </button>
+                                            hola
+                                            <button wire:click="syncPlan({{ $plan->id }})"
+                                                class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-base hover:bg-blue-600 transition-colors">
+                                                Sincronizar
+                                            </button>
+                                        @else
+                                            hola2
                                         @endif
                                     </div>
                                 </td>
