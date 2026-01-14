@@ -35,8 +35,7 @@
                         ">
 
             @forelse ($allPlanes as $plan)
-                {{ Auth::id() }}
-                {{ $plan->user_id }}
+
                 <tr
                     class="bg-neutral-primary border-b border-default hover:bg-neutral-secondary transition-colors
                         @switch($plan->status)

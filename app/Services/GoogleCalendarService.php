@@ -56,8 +56,8 @@ class GoogleCalendarService
             $role = $isCreator ? 'Organizador' : 'Invitado';
             $service = new Calendar($client);
             $event = new Event([
-                'summary' => $plan->titulo,
-                'description' => $plan->descripcion . "\n\n[$role en este plan]",
+                'summary' => $plan->name,
+                'description' => $plan->description . "\n\n[$role en este plan]",
                 'start' => [
                     'dateTime' => $plan->start_date->toRfc3339String(),
                     'timeZone' => 'America/Lima',
@@ -108,8 +108,8 @@ class GoogleCalendarService
             $isCreator = $plan->isCreator($user->id);
             $role = $isCreator ? 'Organizador' : 'Invitado';
 
-            $event->setSummary($plan->titulo);
-            $event->setDescription($plan->descripcion . "\n\n[$role en este plan]");
+            $event->setSummary($plan->name);
+            $event->setDescription($plan->description . "\n\n[$role en este plan]");
             $event->setStart(new \Google\Service\Calendar\EventDateTime([
                 'dateTime' => $plan->start_date->toRfc3339String(),
                 'timeZone' => 'America/Lima',
