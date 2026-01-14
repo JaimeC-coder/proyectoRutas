@@ -1,11 +1,13 @@
 <div class="grid grid-cols-1 md:grid-cols-1 gap-3 lg:gap-1">
 
 
+    <table class="w-full text-sm  rtl:text-right text-body">
+        <caption class="p-5 text-lg font-medium text-right rtl:text-right text-heading">
+              <button class="inline-flex items-center px-4 py-2 bg-blue-400 text-white rounded-base hover:bg-blue-600 transition-colors rounded-xl border border-transparent" wire:click="">Sincronizar todos los planes</button>
 
-
-    <table class="w-full text-sm text-left rtl:text-right text-body">
+        </caption>
         <thead
-            class="text-sm text-body  rounded-base border-default dark:text-white dark:divide-neutral-secondary border-b">
+            class="text-sm text-center text-body  rounded-base border-default dark:text-white dark:divide-neutral-secondary border-b">
             <tr>
                 <th scope="col" class="px-6 py-3">
                     Nombre del Plan
@@ -132,17 +134,17 @@
                                 <td class="px-6 py-4">
                                     <div class="flex gap-2">
                                         <button wire:click="deletePlan({{ $plan->id }})"
-                                            class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-base hover:bg-red-600 transition-colors">
+                                            class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-base hover:bg-red-600 transition-colors rounded-xl">
                                             Eliminar
                                         </button>
                                         @if (!$plan->synced_at)
                                             <button wire:click="syncPlan({{ $plan->id }})"
-                                                class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-base hover:bg-blue-600 transition-colors">
+                                                class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-base hover:bg-blue-600 transition-colors rounded-xl">
                                                 Sincronizar
                                             </button>
                                         @else
                                             <button wire:click="unsyncPlan({{ $plan->id }})"
-                                                class="inline-flex items-center px-4 py-2 bg-yellow-500 text-white rounded-base hover:bg-yellow-600 transition-colors">
+                                                class="inline-flex items-center px-4 py-2 bg-yellow-500 text-white rounded-base hover:bg-yellow-600 transition-colors rounded-xl">
                                                 Desincronizar
                                             </button>
                                         @endif
@@ -152,17 +154,16 @@
                                 <td class="px-6 py-4">
                                     <div class="flex gap-2">
                                         <button wire:click="refusePlan({{ $plan->id }})"
-                                            class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-base hover:bg-red-600 transition-colors">
+                                            class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-base hover:bg-red-600 transition-colors rounded-xl">
                                             Rechazar
                                         </button>
                                         @if (!$plan->synced_at)
-                                            hola
+
                                             <button wire:click="syncPlan({{ $plan->id }})"
-                                                class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-base hover:bg-blue-600 transition-colors">
+                                                class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-base hover:bg-blue-600 transition-colors rounded-xl">
                                                 Sincronizar
                                             </button>
-                                        @else
-                                            hola2
+
                                         @endif
                                     </div>
                                 </td>
@@ -179,7 +180,7 @@
                             <td class="px-6 py-4">
                                 <div class="flex gap-2">
                                     <button wire:click="acceptPlan({{ $plan->id }})"
-                                        class="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-base hover:bg-green-600 transition-colors">
+                                        class="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-base hover:bg-green-600 transition-colors rounded-xl">
                                         Aceptar
                                     </button>
                                 </div>
@@ -232,10 +233,5 @@
 
             </tbody>
         </table>
-
-
-
-
-
 
     </div>

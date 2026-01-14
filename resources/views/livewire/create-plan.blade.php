@@ -196,10 +196,10 @@
 
 
             <div class="flex gap-3 pt-4">
-                <x-button href="{{ route('dashboard') }}" type="button">
+                <x-button href="{{ route('dashboard') }}" type="button" class="rounded-xl">
                     Cancelar
                 </x-button>
-                <x-button type="submit" variant="secondary">
+                <x-button type="submit" variant="secondary" class="rounded-xl">
                     Crear plan
                 </x-button>
             </div>

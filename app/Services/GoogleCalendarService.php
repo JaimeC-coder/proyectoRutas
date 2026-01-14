@@ -162,7 +162,6 @@ class GoogleCalendarService
         } catch (\Exception $e) {
             Log::error("Error al eliminar evento para usuario {$user->id}: " . $e->getMessage());
             if ($e->getCode() === 410 || $e->getCode() === 404) {
-                Log::info("Eliminando referencia del evento para el usuario {$user->id} debido a error 401");
                 $plan->users()->updateExistingPivot($user->id, [
                     'google_event_id' => null,
                     'synced_at' => null,
