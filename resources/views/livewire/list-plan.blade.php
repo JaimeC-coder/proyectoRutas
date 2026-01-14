@@ -3,7 +3,7 @@
 
     <table class="w-full text-sm  rtl:text-right text-body">
         <caption class="p-5 text-lg font-medium text-right rtl:text-right text-heading">
-              <button class="inline-flex items-center px-4 py-2 bg-blue-400 text-white rounded-base hover:bg-blue-600 transition-colors rounded-xl border border-transparent" wire:click="">Sincronizar todos los planes</button>
+              <button wire:click="syncAllPlans" class="inline-flex items-center px-4 py-2 bg-blue-400 text-white rounded-base hover:bg-blue-600 transition-colors rounded-xl border border-transparent" >Sincronizar todos los planes</button>
 
         </caption>
         <thead

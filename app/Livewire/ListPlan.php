@@ -71,6 +71,17 @@ class ListPlan extends Component
         GoogleCalendarService::deleteEventForUser(Auth::user(), Plans::find($planId));
     }
 
+    public function syncAllPlans()
+    {
+        $user = Auth::user();
+        $result = GoogleCalendarService::syncAllPlansForUser($user);
+        if ($result['success']) {
+            session()->flash('message', 'Todos los planes se han sincronizado correctamente.');
+        } else {
+            session()->flash('error', 'Error al sincronizar los planes: ' . $result['message']);
+        }
+    }
+
 
 
 
