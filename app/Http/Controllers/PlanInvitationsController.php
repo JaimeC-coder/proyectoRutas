@@ -86,7 +86,7 @@ class PlanInvitationsController extends Controller
         // Login automático
         Auth::login($user);
 
-        return redirect()->route('admin.plans.show', $invitation->plan_id)
+        return redirect()->route('plans.show', $invitation->plan_id)
             ->with('success', '¡Cuenta creada y te has unido al plan!');
     }
 }
